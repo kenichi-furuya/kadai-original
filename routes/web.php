@@ -4,6 +4,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UsersController; // 追記
+use App\Http\Controllers\TransfersController; // 追記
 
 /*
 |--------------------------------------------------------------------------
@@ -16,19 +17,17 @@ use App\Http\Controllers\UsersController; // 追記
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', [TransfersController::class, 'index']);
+Route::get('/dashboard', [TransfersController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::resource('users', UsersController::class, ['only' => ['index', 'show']]);
-    //Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    //Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    //Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::prefix('users/{id}')->group(function () {
+        Route::get('transfers', [UsersController::class, 'transfers'])->name('users.transfers');
+        Route::get('inout', [UsersController::class, 'inout'])->name('users.inout');
+        Route::get('send', [UsersController::class, 'send'])->name('users.send');
+    });
+    Route::resource('users', UsersController::class, ['only' => ['show','create']]);
+    Route::resource('transfers', TransfersController::class, ['only' => ['index', 'store']]);//,'store2'
 });
 
 require __DIR__.'/auth.php';

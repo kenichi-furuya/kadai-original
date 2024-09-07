@@ -1,5 +1,5 @@
 <header class="mb-4">
-    <nav class="navbar bg-neutral text-neutral-content">
+    <nav class="navbar bg-red-600 text-neutral-content">
         {{-- トップページへのリンク --}}
         <div class="flex-1">
             <h1><a class="btn btn-ghost normal-case text-xl" href="/">Furuya Bank</a></h1>

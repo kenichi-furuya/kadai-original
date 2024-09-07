@@ -42,4 +42,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * このユーザーの入出金明細。（ Transferモデルとの関係を定義）
+     */
+    public function transfers()
+    {
+        return $this->hasMany(Transfer::class);
+    }
+
 }
